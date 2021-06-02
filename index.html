@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Adding popup</title>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <script src="js/leaflet.js"></script>
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+                background-color: "whitesmoke";
+                font-family: "Noto Sans", sans-serif;
+                color: #3d3d3d;
+            }
+            #title {
+                position: fixed;
+                margin-top: 0;
+                top: 10px;
+                left: 55px;
+                font-size: 2em;
+                font-family: "Lora", serif;
+                letter-spacing: .04em;
+                padding: 10px 15px;
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+            #description {
+                position: fixed;
+                bottom: 20px;
+                left: 10px;
+                width: 280px;
+                padding: 0px 15px;
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 1px solid grey;
+                border-radius: 3px;
+                z-index: 800;
+            }
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+            }
+            .legend {
+                padding: 6px 8px;
+                background-color: rgba(255, 255, 255, 0.8);
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                border-radius: 5px;
+            }
+            .legend i {
+                width: 18px;
+                height: 18px;
+                float: left;
+                margin-right: 8px;
+                opacity: 0.77;
+            }
+            div.legend.leaflet-control br {
+                clear: both;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="title">Ruta del Paseo Romano</h1>
+        <div id="map"></div>
+        <div id='description'>
+            <h2>Visitas guiadas</h2>
+            <p>En este paseo revivimos el pasado romano de Zaragoza, recorriendo lugares evocadores que nos ofrecen un auténtico viaje a través del tiempo.</p>
+            <p><b>Calendario 2021</b></p>
+            <p>Domingos a las 11:00 h. desde el Torreón de la Zuda.</p>
+            <p><b>Tarifas:</b></p>
+            <p><li><b>Tarifa general</b>: 5,50 euros.</li></p>
+            <p><li><b>Estudiantes</b>: 4 euros.</li></p>
+            <p><li><b>Menores de 8 años</b>: gratuito.</li></p><hr>
+            <p><b>Más información</b></p>
+            <p><li><b>Teléfono turístico</b>: 976201200</li></p>
+            <img src='images/zaragozaturismo.jpg'/>
+        </div>
+        <script>
+
+    // Create variable to hold map element, give initial settings to map
+    let map = L.map("map", {center: [41.653734312571544, -0.8793710011177538], zoom: 16});
+
+    // Add OpenStreetMap tile layer to map element
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
+        {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}
+    ).addTo(map);
+
+    // Add point
+
+    var museum1 = L.icon({
+        iconUrl: 'https://img.icons8.com/color/48/000000/1-circle-c--v1.png',
+        iconSize: [30, 30],
+    });
+
+    var museum2 = L.icon({
+        iconUrl: 'https://img.icons8.com/color/48/000000/2-circle-c--v1.png',
+        iconSize: [30, 30],
+    });
+
+    var museum3 = L.icon({
+        iconUrl: 'https://img.icons8.com/color/48/000000/3-circle-c--v1.png',
+        iconSize: [30, 30],
+    });
+
+    var museum4 = L.icon({
+        iconUrl: 'https://img.icons8.com/color/48/000000/4-circle-c--v1.png',
+        iconSize: [30, 30],
+    });
+
+    var museum5 = L.icon({
+        iconUrl: 'https://img.icons8.com/color/48/000000/5-circle-c--v1.png',
+        iconSize: [30, 30],
+    });
+
+    let Murallas_de_Caesaragusta = L.marker([41.657150623130356, -0.8818101661848473],{icon:museum1}).addTo(map);
+    let Museo_del_Foro_de_Caesaragusta = L.marker([41.655186011623684, -0.8763323270275002],{icon:museum2}).addTo(map);
+    let Museo_del_Puerto_Fluvial_de_Caesaragusta = L.marker([41.65523645671642, -0.8748580174403838],{icon:museum3}).addTo(map);
+    let Museo_de_las_Termas_Publicas_de_Caesaragusta = L.marker([41.65334521734336, -0.87705001003447],{icon:museum4}).addTo(map);
+    let Teatro_de_Caesaragusta = L.marker([41.65253131309074, -0.8774031635739442],{icon:museum5}).addTo(map);
+
+    // Add line
+    let line = L.polyline(
+        [[41.657150623130356, -0.8818101661848473], [41.655186011623684, -0.8763323270275002], [41.65523645671642, -0.8748580174403838], [41.65334521734336, -0.87705001003447], [41.65253131309074, -0.8774031635739442]], 
+        {color: "IndianRed", weight: 5}
+    ).addTo(map);
+
+    // Add popup
+    Murallas_de_Caesaragusta.bindPopup(
+        "<b>MURALLAS DE CAESARAGUSTA</b>" + 
+        "<br>Caesaraugusta estuvo rodeada de una muralla con numerosas torres, quizá hasta 120. Sus muros tenían un considerable grosor, que alcanzaba en muchas zonas los 7 m., siendo la parte exterior de sillares de alabastro y caliza, y la interior de una argamasa extraordinariamente dura (opus caementicium). Sus torres son semicirculares o ultrasemicirculares y tienen un diámetro en torno a los 8 m., alcanzando los 13 m. en una de las que flanqueaban la puerta occidental.</br> <img width=100% src='images/murallas-romanas.jpg'/>"
+    );
+
+    Museo_del_Foro_de_Caesaragusta.bindPopup(
+        "<b>MUSEO DEL FORO DE CAESARAGUSTA</b>" + 
+        "<br>Centro neurálgico y principal lugar de reunión donde se desarrolla la vida social, religiosa, civil, política y económica de Caesaraugusta.</br> <img width=100% src='images/museo-del-foro-de-caesaraugusta.jpg'/>"
+    );
+
+    Museo_del_Puerto_Fluvial_de_Caesaragusta.bindPopup(
+        "<b>MUSEO DEL PUERTO FLUVIAL DE CAESARAGUSTA</b>" + 
+         "<br>¿Sabías que el río Ebro era navegable y el puerto de Caesaraugusta se consideraba el tercero más importante de Hispania?</br> <img width=100% src='images/museo-del-puerto-fluvial-de-caesaraugusta.jpg'/>"
+    );
+
+    Museo_de_las_Termas_Publicas_de_Caesaragusta.bindPopup(
+        "<b>MUSEO DE LAS TERMAS PÚBLICAS DE CAESARAGUSTA</b>" +
+        "<br>Punto de encuentro de la alta sociedad romana, las Termas Públicas se localizaban en el centro de Caesaraugusta, entre el Foro y el Teatro.</br> <img width=100% src='images/termas-publicas.jpg'/>"
+    );
+
+    Teatro_de_Caesaragusta.bindPopup(
+        "<b>MUSEO DEL TEATRO DE CAESARAGUSTA</b>" + 
+        "<br>Descubre uno de los mayores teatros de la Hispania romana con aforo para más de 6.000 personas, el más grande de España descubierto hasta la fecha y el único con una fosa bajo su escenario.</br> <img width=100% src='images/museo-del-teatro-de-caesaraugusta.jpg'/>"
+    );
+
+    // Create Leaflet control object for legend
+    let legend = L.control({position: "topright"});
+
+    // Function that runs when legend is added to map
+    legend.onAdd = function() {
+
+        // Create <div> element and populate it with HTML
+        let div = L.DomUtil.create("div", "legend");
+        div.innerHTML =
+        '<h2>Puntos de interés</h2>' +
+        '<p><img src="images/1-circle-c--v1.png", width=25>Murallas de Caesaragusta</p>' +
+        '<p><img src="images/2-circle-c--v1.png", width=25>Museo del Foro de Caesaragusta</p>' +
+        '<p><img src="images/3-circle-c--v1.png", width=25>Museo del Puerto Fluvial de Caesaragusta</p>' +
+        '<p><img src="images/4-circle-c--v1.png", width=25>Museo de las Termas Públicas de Caesaragusta</p>' +
+        '<p><img src="images/5-circle-c--v1.png", width=25>Museo del Teatro de Caesaragusta</p>' 
+    
+        // Return the legend <div> containing the HTML content
+        return div;
+    
+    };
+
+    // Add Legend to Map
+    legend.addTo(map);
+
+        </script>
+    </body>
+</html>
